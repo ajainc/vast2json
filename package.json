@@ -2,7 +2,7 @@
   "name": "vast2json",
   "version": "1.0.0",
   "description": "VASTのXMLをJSONに変換",
-  "main": "vast2json.js",
+  "main": "index.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/inkenkun/vast2json.git"
