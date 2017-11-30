@@ -1,1 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?><VAST version="2.0"><Ad id="000"><Wrapper><AdSystem>sample</AdSystem><VASTAdTagURI><![CDATA[http://localhost:4000/vast_inline_linear.xml]]></VASTAdTagURI><Error><![CDATA[http://www.waaaaaaai.com/]]></Error><Impression><![CDATA[http://www.waaaaaaai.com/]]></Impression><Creatives></Creatives></Wrapper></Ad></VAST>
