@@ -1,5 +1,6 @@
-const xml2js = require('xml2js');
-const xml2js_param = {
+var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
+var xml2js = require('xml2js');
+var xml2js_param = {
   explicitArray: false,
   explicitCharkey: true,
   explicitAttrkey: true,
@@ -8,25 +9,27 @@ const xml2js_param = {
   trim: true,
 }
 
-const WRAPPER_LIMIT = 5;
-let count = 1;
+var WRAPPER_LIMIT = 5;
+var count = 1;
+var vast2json = {};
 
-let vast2json = {};
 
+vast2json.toJson = function(req,callback){
 
-vast2json.toJson = function(req,func){
+  var self = this;
   if(req.indexOf('http') === 0){
-    this.fetch(req).then((doc) => {
-      this.parse(doc,func);
-    });
+    self.fetch(req, function(doc){
+      self.parse(doc,callback);
+    }, function(e) {callback(e)});
   }else{
-    this.parse(req,func);
+    self.parse(req,callback);
   } 
 }
   
-vast2json.parse = function(str,func){
+vast2json.parse = function(str,callback){
 
-  this.xmlparse(str).then((json)=>{
+  var self = this;
+  self.xmlparse(str, function(json){
     if( ( json && 
         json.VAST && 
         json.VAST.Ad && 
@@ -42,65 +45,57 @@ vast2json.parse = function(str,func){
         json.VAST.Ad[0].Wrapper.VASTAdTagURI._value )
       ){
 
-      let url = '';
+      var url = '';
       if(Array.isArray(json.VAST.Ad)){
         url = json.VAST.Ad[0].Wrapper.VASTAdTagURI._value;
       }else{
         url = json.VAST.Ad.Wrapper.VASTAdTagURI._value
       }
 
-      this.fetch(url).then((doc) => {
+      self.fetch(url, function(doc) {
 
         if(count <= WRAPPER_LIMIT){
           count++;
-          this.parse(doc,func);
+          self.parse(doc,callback);
         }else{
-          func('too meny Wrapper');
+          callback('too meny Wrapper');
         }
         
-      }, (e) => {func(e)});
+      }, function(e) {callback(e)});
     }else{
-      func(json);
+      callback(json);
     }
-  }, (e) => {func(e)})
+  }, function(e){callback(e)})
 }
 
-vast2json.fetch = function(url){
+vast2json.fetch = function(url, ok, ng){
 
-  return new Promise((resolve, reject) => {
+  var xhr  = new XMLHttpRequest();
 
-    let xhr  = new XMLHttpRequest();
-    xhr.onreadystatechange = () => {
-      if (xhr.readyState === 4) {
-        if (xhr.status === 200) {
-          resolve(xhr.responseText);
-        } else {
-          reject(xhr);
-        }
+  xhr.onreadystatechange = function(){
+    if (xhr.readyState === 4) {
+      if (xhr.status === 200) {
+        ok(xhr.responseText);
+      } else {
+        ng(xhr);
       }
     }
+  }
 
-    xhr.open("GET", url, true);
-    xhr.send(null);
-  });
-
+  xhr.open("GET", url, true);
+  xhr.send(null);
 }
 
-vast2json.xmlparse = function(xml){
+vast2json.xmlparse = function(xml, ok, ng){
 
-  return new Promise((resolve, reject) => {
+  xml2js.parseString(xml, xml2js_param, function (err, result){
 
-    xml2js.parseString(xml, xml2js_param, (err, result) => {
-
-      if(err){
-        reject(err);
-      }else{
-        resolve(result);
-      }
-    });
-
+    if(err){
+      ng(err);
+    }else{
+      ok(result);
+    }
   });
 }
-
 
 module.exports = vast2json;

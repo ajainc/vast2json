@@ -19,7 +19,8 @@
     "JSON"
   ],
   "dependencies": {
-    "xml2js": "^0.4.19"
+    "xml2js": "^0.4.19",
+    "xmlhttprequest": "^1.8.0"
   },
   "license": "MIT"
 }
