@@ -8,19 +8,17 @@
     "url": "https://github.com/inkenkun/vast2json.git"
   },
   "author": "inken",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "devDependencies": {},
   "keywords": [
     "VAST",
     "parser",
     "XML",
+    "Convert",
     "JSON"
   ],
   "dependencies": {
     "xml2js": "^0.4.19",
     "xmlhttprequest": "^1.8.0"
   },
+  "homepage": "http://x1.inkenkun.com/",
   "license": "MIT"
 }
