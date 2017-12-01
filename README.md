@@ -9,6 +9,8 @@ example.js見てね
 
 #### 入力と出力
 
+これが
+
 ```
 <VAST version="2.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="oxml.xsd">
   <Ad id="1" sequence="0">
@@ -54,7 +56,7 @@ example.js見てね
 </VAST>
 ```
 
-↓
+こんな感じに
 
 ```
 {
