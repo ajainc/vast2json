@@ -3,11 +3,11 @@ VASTのXMLをJSONに変換
 
 xml文字列でもurlでもおけ
 
-## 使い方
+### 使い方
 
 example.js見てね
 
-##### 入力と出力
+#### 入力と出力
 
 ```
 <VAST version="2.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="oxml.xsd">
