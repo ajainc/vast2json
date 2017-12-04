@@ -21,9 +21,6 @@ module.exports = {
 ```
 
 
-example.js見てね
-
-
 #### 入力と出力
 
 これが
