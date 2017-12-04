@@ -1,4 +1,6 @@
-var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
+if(!XMLHttpRequest){
+  var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
+}
 var xml2js = require('xml2js');
 var xml2js_param = {
   explicitArray: false,
