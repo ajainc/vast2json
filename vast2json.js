@@ -1,4 +1,4 @@
-if(!XMLHttpRequest){
+if(!window.XMLHttpRequest){
   var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
 }
 var xml2js = require('xml2js');
