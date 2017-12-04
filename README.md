@@ -7,6 +7,23 @@ xml文字列でもurlでもおけ
 
 example.js見てね
 
+### Attention
+
+フロント＆webpack使う場合はwebpack.configに以下を追加よろ
+
+```
+module.exports = {
+  node: {
+    child_process: 'empty',
+    fs: 'empty'
+  }
+};
+```
+
+
+example.js見てね
+
+
 #### 入力と出力
 
 これが
