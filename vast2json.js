@@ -1,5 +1,6 @@
-if(!window.XMLHttpRequest){
-  var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
+if(!window || !window.XMLHttpRequest){
+  var window = {};
+  window.XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
 }
 var xml2js = require('xml2js');
 var xml2js_param = {
@@ -72,7 +73,7 @@ vast2json.parse = function(str,callback){
 
 vast2json.fetch = function(url, ok, ng){
 
-  var xhr  = new XMLHttpRequest();
+  var xhr  = new window.XMLHttpRequest();
 
   xhr.onreadystatechange = function(){
     if (xhr.readyState === 4) {
