@@ -1,6 +1,6 @@
 {
   "name": "vast2json",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "VASTのXMLをJSONに変換",
   "main": "vast2json.js",
   "repository": {

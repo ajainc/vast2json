@@ -80,7 +80,7 @@ vast2json.parse = function(str,callback){
         imp = imp.map(function(element, index, array) {
             return element._value;
         });
-        json.imp = imp;
+        json.WrapperImpression = imp;
         callback(json);
       }
 
