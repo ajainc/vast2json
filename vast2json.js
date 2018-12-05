@@ -19,6 +19,7 @@ var WRAPPER_LIMIT = 5;
 var count = 1;
 var vast2json = {};
 var imp = [];
+var trackingEvents = {};
 
 vast2json.toJson = function(req,callback){
 
@@ -61,6 +62,8 @@ vast2json.parse = function(str,callback){
           parent = json.VAST.Ad;
         }
         url = parent.Wrapper.VASTAdTagURI._value;
+
+        // Get Impression
         if(Array.isArray(parent.Wrapper.Impression)){
           parent.Wrapper.Impression.forEach(function(element, index, array) {
               imp.push(element);
@@ -69,6 +72,25 @@ vast2json.parse = function(str,callback){
           imp.push(parent.Wrapper.Impression);
         }
 
+        // Get TrackingEvents (only Linear ad)
+        for (var i = 0; i < parent.Wrapper.Creatives.Creative.length; i++) {
+          try {
+            var creative = parent.Wrapper.Creatives.Creative[i];
+            if (!creative.Linear.TrackingEvents) continue;
+            if(!Array.isArray(creative.Linear.TrackingEvents.Tracking)) {
+              creative.Linear.TrackingEvents.Tracking = [creative.Linear.TrackingEvents.Tracking];
+            }
+            for (var j = 0; j < creative.Linear.TrackingEvents.Tracking.length; j++) {
+              var tracking = creative.Linear.TrackingEvents.Tracking[j];
+              if(!trackingEvents[tracking._attr.event]) {
+                trackingEvents[tracking._attr.event] = [];
+              }
+              trackingEvents[tracking._attr.event].push(tracking._value)
+            }
+          } catch (e) {
+            // no tracking events
+          }
+        }
         self.fetch(url, function(doc) {
 
           if(count <= WRAPPER_LIMIT){
@@ -84,6 +106,7 @@ vast2json.parse = function(str,callback){
             return element._value;
         });
         json.WrapperImpression = imp;
+        json.WrapperTrackingEvents = trackingEvents;
         callback(json);
       }
 
