@@ -73,22 +73,27 @@ vast2json.parse = function(str,callback){
         }
 
         // Get TrackingEvents (only Linear ad)
-        for (var i = 0; i < parent.Wrapper.Creatives.Creative.length; i++) {
-          try {
-            var creative = parent.Wrapper.Creatives.Creative[i];
-            if (!creative.Linear.TrackingEvents) continue;
-            if(!Array.isArray(creative.Linear.TrackingEvents.Tracking)) {
-              creative.Linear.TrackingEvents.Tracking = [creative.Linear.TrackingEvents.Tracking];
-            }
-            for (var j = 0; j < creative.Linear.TrackingEvents.Tracking.length; j++) {
-              var tracking = creative.Linear.TrackingEvents.Tracking[j];
-              if(!trackingEvents.Linear[tracking._attr.event]) {
-                trackingEvents.Linear[tracking._attr.event] = [];
+        if (parent.Wrapper.Creatives.Creative) {
+          if (!Array.isArray(parent.Wrapper.Creatives.Creative)) {
+            parent.Wrapper.Creatives.Creative = [parent.Wrapper.Creatives.Creative]
+          }
+          for (var i = 0; i < parent.Wrapper.Creatives.Creative.length; i++) {
+            try {
+              var creative = parent.Wrapper.Creatives.Creative[i];
+              if (!creative.Linear.TrackingEvents) continue;
+              if(!Array.isArray(creative.Linear.TrackingEvents.Tracking)) {
+                creative.Linear.TrackingEvents.Tracking = [creative.Linear.TrackingEvents.Tracking];
               }
-              trackingEvents.Linear[tracking._attr.event].push(tracking._value)
+              for (var j = 0; j < creative.Linear.TrackingEvents.Tracking.length; j++) {
+                var tracking = creative.Linear.TrackingEvents.Tracking[j];
+                if(!trackingEvents.Linear[tracking._attr.event]) {
+                  trackingEvents.Linear[tracking._attr.event] = [];
+                }
+                trackingEvents.Linear[tracking._attr.event].push(tracking._value)
+              }
+            } catch (e) {
+              // no tracking events
             }
-          } catch (e) {
-            // no tracking events
           }
         }
         self.fetch(url, function(doc) {
