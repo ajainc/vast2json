@@ -19,7 +19,7 @@ var WRAPPER_LIMIT = 5;
 var count = 1;
 var vast2json = {};
 var imp = [];
-var trackingEvents = {};
+var trackingEvents = {'linear': {}};
 
 vast2json.toJson = function(req,callback){
 
@@ -82,10 +82,10 @@ vast2json.parse = function(str,callback){
             }
             for (var j = 0; j < creative.Linear.TrackingEvents.Tracking.length; j++) {
               var tracking = creative.Linear.TrackingEvents.Tracking[j];
-              if(!trackingEvents[tracking._attr.event]) {
-                trackingEvents[tracking._attr.event] = [];
+              if(!trackingEvents['linear'][tracking._attr.event]) {
+                trackingEvents['linear'][tracking._attr.event] = [];
               }
-              trackingEvents[tracking._attr.event].push(tracking._value)
+              trackingEvents['linear'][tracking._attr.event].push(tracking._value)
             }
           } catch (e) {
             // no tracking events
